@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TenderHub - Dodaj przetarg</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+        function checkEndDate() {
+            var startDateInput = document.getElementById("startDate");
+            var endDateInput = document.getElementById("endDate");
+            var startDate = new Date(startDateInput.value);
+            var endDate = new Date(endDateInput.value);
+
+            if (endDate < startDate) {
+                endDateInput.setCustomValidity("Data zakończenia nie może być wcześniejsza niż data rozpoczęcia");
+            } else if (endDate.toISOString().split('T')[0] === startDate.toISOString().split('T')[0] && (endDate.getHours() < startDate.getHours() || (endDate.getHours() === startDate.getHours() && endDate.getMinutes() < startDate.getMinutes()))) {
+                endDateInput.setCustomValidity("Godzina zakończenia nie może być wcześniejsza niż godzina rozpoczęcia");
+            } else {
+                endDateInput.setCustomValidity("");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <%- include("header") %>
+        <main>
+            <br>
+            <h2>Dodaj przetarg</h2><br>
+            <form action="/tenders-add" method="post">
+                <div class="column">
+                    <label for="title">Tytuł:</label><br>
+                    <input class="textbox" type="text" id="title" name="title" required><br><br>
+                    <label for="institution">Instytucja zamawiająca:</label><br>
+                    <input class="textbox" type="text" id="institution" name="institution" required><br><br>
+                    <label for="description">Opis:</label><br>
+                    <textarea class="description textbox" id="description" name="description"
+                        required></textarea><br><br>
+                </div>
+                <div class="column">
+                    <label for="startDate">Data rozpoczęcia:</label><br>
+                    <input class="date" type="date" id="startDate" name="startDate" required
+                        min="<%= new Date().toISOString().split('T')[0] %>">
+                    <br><br>
+                    <label for="endDate">Data zakończenia:</label><br>
+                    <input class="date" type="date" id="endDate" name="endDate" required
+                        min="<%= new Date().toISOString().split('T')[0] %>" oninput="checkEndDate()">
+                    <br><br>
+                    <label for="maxBudget">Maksymalny budżet:</label><br>
+                    <input class="textbox" type="number" id="budget" name="budget" step="0.01" required><br><br>
+                    <input class="button" type="submit" value="Dodaj przetarg">
+                </div>
+            </form>
+        </main>
+        <%- include("footer") %>
+</body>
+
+</html>

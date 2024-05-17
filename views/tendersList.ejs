@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TenderHub - Lista aktualnych przetargów</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <%- include("header") %>
+        <main>
+            <br>
+            <h2>Lista aktualnych przetargów</h2><br>
+            <table>
+                <colgroup>
+                    <col style="width:5%">
+                    <col style="width:65%">
+                    <col style="width:15%">
+                    <col style="width:15%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Nr</th>
+                        <th>Tytuł</th>
+                        <th>Data rozpoczęcia</th>
+                        <th>Data zakończenia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tenders.forEach((tender, index)=> { %>
+                        <tr>
+                            <td><a href="/tenders/<%= tender.id %>">
+                                    <%= index + 1 %>.
+                                </a></td>
+                            <td><a id="tit1" href="/tenders/<%= tender.id %>">
+                                    <%= tender.title %>
+                                </a></td>
+                            <td><a href="/tenders/<%= tender.id %>">
+                                    <%= new Date(tender.startDate).toLocaleDateString('pl-PL') %>
+                                </a></td>
+                            <td><a href="/tenders/<%= tender.id %>">
+                                    <%= new Date(tender.endDate).toLocaleDateString('pl-PL') %>
+                                </a></td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+        </main>
+        <%- include("footer") %>
+</body>
+
+</html>

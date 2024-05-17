@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TenderHub - Złóż ofertę - <%= tender.title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+        function checkValue() {
+            var valueInput = document.getElementById("value");
+            var value = parseFloat(valueInput.value);
+
+            if (value <= 0 || isNaN(value)) {
+                valueInput.setCustomValidity("Wartość oferty musi być liczbą większą od zera");
+            } else {
+                valueInput.setCustomValidity("");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <%- include("header") %>
+        <main>
+            <br><h2>Złóż ofertę w przetargu '<%= tender.title %>'</h2><br>
+            <form action="/offers-add/<%= tender.id %>" method="post">
+                <label for="name">Nazwa składającego:</label><br>
+                <input class="textbox" type="text" id="name" name="name" required><br><br>
+                <label for="value">Wartość oferty:</label><br>
+                <input class="textbox" type="number" id="value" name="value" step="0.01" required oninput="checkValue()"><br><br>
+                <input class="button" type="submit" value="Złóż ofertę">
+            </form>
+        </main>
+        <%- include("footer") %>
+</body>
+
+</html>

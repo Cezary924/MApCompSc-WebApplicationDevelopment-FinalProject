@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TenderHub - Informacje o przetargu - <%= tender.title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+        function isStartDatePast(startDate) {
+            return new Date(startDate) < new Date();
+        }
+    </script>
+</head>
+
+<body>
+    <%- include("header") %>
+        <main>
+            <br>
+            <h2>Informacje o przetargu</h2><br>
+            <div class="column">
+                <h3>Szczegóły:</h3>
+                <ul>
+                    <li>Nazwa: <%= tender.title %>
+                    </li>
+                    <li>Instytucja: <%= tender.institution %>
+                    </li>
+                    <li>Opis: <%= tender.description %>
+                    </li>
+                    <li>Data rozpoczęcia: <%= new Date(tender.startDate).toLocaleDateString('pl-PL') %>
+                    </li>
+                    <li>Data zakończenia: <%= new Date(tender.endDate).toLocaleDateString('pl-PL') %>
+                    </li>
+                </ul><br>
+            </div>
+            <div class="column">
+                <h3>Oferty:</h3>
+                <% if (new Date(tender.startDate) <= new Date()) { %>
+                    <a href="/offers-add/<%= tender.id %>"><button class="button" type="button">Złóż ofertę</button></a>
+                <% } else { %>
+                    <p>Składanie ofert nie jest jeszcze możliwe.</p>
+                <% } %>
+            </div>
+        </main>
+        <%- include("footer") %>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TenderHub - Informacje o przetargu - <%= tender.title %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <%- include("header") %>
+        <main>
+            <br><h2>Informacje o przetargu</h2><br>
+            <div class="column">
+                <h3>Szczegóły:</h3>
+                <ul>
+                    <li>Nazwa: <%= tender.title %>
+                    </li>
+                    <li>Instytucja: <%= tender.institution %>
+                    </li>
+                    <li>Opis: <%= tender.description %>
+                    </li>
+                    <li>Data rozpoczęcia: <%= new Date(tender.startDate).toLocaleDateString('pl-PL') %>
+                    </li>
+                    <li>Data zakończenia: <%= new Date(tender.endDate).toLocaleDateString('pl-PL') %>
+                    </li>
+                </ul><br>
+            </div>
+            <div class="column">
+                <h3>Oferty:</h3>
+                <% if(offers.length <= 0) { %>
+                    <p>Przetarg zakończony bez rozstrzygnięcia.</p>
+                    <% } else { %>
+                        <table>
+                            <colgroup>
+                                <col style="width:10%">
+                                <col style="width:40%">
+                                <col style="width:25%">
+                                <col style="width:25%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Nr</th>
+                                    <th>Nazwa składającego</th>
+                                    <th>Wartość oferty</th>
+                                    <th>Data złożenia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% offers.forEach((offer, index)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= index + 1 %>.
+                                        </td>
+                                        <td>
+                                            <%= offer.name %>
+                                        </td>
+                                        <td>
+                                            <%= offer.value %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(offer.date).toLocaleString('pl-PL') %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <% } %>
+            </div>
+        </main>
+        <%- include("footer") %>
+</body>
+
+</html>
